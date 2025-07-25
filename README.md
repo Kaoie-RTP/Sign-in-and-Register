@@ -6,6 +6,13 @@ To install dependencies:
 bun install
 ```
 
+To compile files
+
+```bash
+tsc
+```
+
+
 To run:
 
 ```bash
