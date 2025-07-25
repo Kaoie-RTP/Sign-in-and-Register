@@ -18,12 +18,30 @@ serve({
         const file = Bun.file(filePath);
         if (await file.exists()) {
           const html = await file.text();
-          return new Response(html, { headers: { "Content-Type": "text/html" } });
+          return new Response(html, {
+            headers: { "Content-Type": "text/html" },
+          });
         }
       } catch {}
     }
 
-    
+    if (req.method === "GET" && url.pathname.startsWith("/dist/")) {
+      const filePath = `src/pages${url.pathname}`;
+      try {
+        const file = Bun.file(filePath);
+        if (await file.exists()) {
+          let contentType = "application/octet-stream";
+          if (filePath.endsWith(".js")) contentType = "application/javascript";
+          if (filePath.endsWith(".css")) contentType = "text/css";
+          if (filePath.endsWith(".json")) contentType = "application/json";
+          if (filePath.endsWith(".map")) contentType = "application/json";
+          return new Response(file, {
+            headers: { "Content-Type": contentType },
+          });
+        }
+      } catch {}
+    }
+
     if (req.method === "POST" && url.pathname === "/signin") {
       let body;
       try {
@@ -33,15 +51,17 @@ serve({
       }
       const username = body.get("username");
       const password = body.get("password");
-      
-      const user = users.find(u => u.username === username && u.password === password);
+
+      const user = users.find(
+        (u) => u.username === username && u.password === password
+      );
       if (user) {
         return new Response("Login successful!");
       } else {
         return new Response("Invalid credentials.");
       }
     }
-    
+
     if (req.method === "POST" && url.pathname === "/register") {
       let body;
       try {
@@ -53,15 +73,15 @@ serve({
       const username = String(body.get("username") ?? "");
       const password = String(body.get("password") ?? "");
       const confirm_password = String(body.get("confirm_password") ?? "");
-      
+
       if (password !== confirm_password) {
         return new Response("Passwords do not match.");
       }
-      
-      if (users.some(u => u.username === username)) {
+
+      if (users.some((u) => u.username === username)) {
         return new Response("Username already exists.");
       }
-      
+
       users.push({ email, username, password });
       return new Response("Registration successful!");
     }
