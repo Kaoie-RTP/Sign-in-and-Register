@@ -1,4 +1,4 @@
-# loginregister
+# SignInRegister
 
 To install dependencies:
 
