@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            margin: auto;
+            padding: 2.5em 2em;
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 420px;
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1.5px 4px rgba(0,0,0,0.04);
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+    </style>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2em;
+            margin-top: 2em;
+        }
+        label {
+            font-size: 1em;
+            margin-bottom: 0.3em;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="confirm_password"] {
+            padding: 0.8em 1em;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[name="confirm_password"]:focus {
+            border-color: #4f8cff;
+            box-shadow: 0 0 0 2px rgba(79,140,255,0.15);
+        }
+        button[type="submit"] {
+            background: #4f8cff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.9em 0;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            margin-top: 0.5em;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+        }
+        button[type="submit"]:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>REGISTER</h1>
+    <form id="register-form" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" placeholder="Enter your username" required>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="confirm_password" name="confirm_password" id="confirm_password" placeholder="Confirm your password" required>
+        <button type="submit">Register</button>
+        <a href="signin.html">Already have an account? Sign In Here</a>
+    </form>
+    </div>
+    <script>
+    document.getElementById("register-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const res = await fetch("/register", {
+        method: "POST",
+        body: formData
+      });
+      const text = await res.text();
+      alert(text);
+    });
+    </script>
+</body>
+</html>
