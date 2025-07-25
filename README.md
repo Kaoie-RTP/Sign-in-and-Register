@@ -6,7 +6,7 @@ To install dependencies:
 bun install
 ```
 
-To compile files
+To compile files:
 
 ```bash
 tsc
